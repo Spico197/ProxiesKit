@@ -45,7 +45,7 @@ class APIMiddleware(object):
         response.raise_for_status()
         return json.loads(response.text)
 
-    def get_proxies(self, num=1, google_passed=False):
+    def get_proxies(self, num=1, google_passed=0):
         params = {
             'num': num,
             'google_passed': google_passed
@@ -121,7 +121,8 @@ def run():
     
     @app.route('/proxy/get_proxies', methods=['GET'])
     def get_proxies():
-        num = request.args.get('num', 1)
+        # print(request.args)
+        num = int(request.args.get('num', 1))
         google_passed = int(request.args.get('google_passed', 0))
         return jsonify(storager.get_proxies(num=num, google_passed=google_passed))
     

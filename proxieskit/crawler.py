@@ -657,9 +657,9 @@ class www_xicidaili_com(CrawlerMeta):
 
 def run():
     crawlers = [
-        hookzof_socks5_list(),
+        # hookzof_socks5_list(),
         dxxzst_free_proxy_list(),
-        TheSpeedX_SOCKS_List(),
+        # TheSpeedX_SOCKS_List(),
         mclvren_proxy_list(),
         a2u_free_proxy_list(),
         clarketm_proxy_list(),
@@ -677,4 +677,7 @@ def run():
         handlers.append(threading.Thread(target=c.run))
     
     for h in handlers:
-        h.start()
+        try:
+            h.start()
+        except:
+            pass

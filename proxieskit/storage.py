@@ -87,6 +87,7 @@ class DictDataBase(object):
             limit = kwargs.get('limit')
         else:
             limit = len(self)
+        # print('limit', limit)
         cnt = 0
         for obj in self.db.values():
             if cnt >= limit:
@@ -116,18 +117,21 @@ class RAMMapStorager(StoragerMeta):
     def __init__(self, *args, **kwargs):
         super(RAMMapStorager, self).__init__(*args, **kwargs)
         self.client = DictDataBase()
+        self.black_list = set()
 
     def __len__(self):
         return len(self.client)
 
     def save(self, obj):
         if isinstance(obj, ProxyInstance):
-            self.client.insert(obj)
+            if str(obj) not in self.black_list:
+                self.client.insert(obj)
     
     def delete(self, obj):
+        self.black_list.add(str(obj))
         self.client.delete(obj)
     
-    def get_proxies(self, num=1, google_passed=False):
+    def get_proxies(self, num=1, google_passed=0):
         resultset = []
         if google_passed:
             objs = self.client.select({'google_passed': True, 'limit': num})

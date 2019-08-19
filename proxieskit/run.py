@@ -29,5 +29,6 @@ if __name__ == "__main__":
     watch_handler = threading.Thread(target=watch_thread)
     
     api_handler.start()
+    time.sleep(2)
     watch_handler.start()
     
